@@ -1,0 +1,2 @@
+class InvalidMatrixError(Exception):
+    pass
