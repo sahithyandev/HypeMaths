@@ -1,10 +1,30 @@
-<center>
-
 # HypeMaths
 
-### An extensible and easy way for advanced maths and its implementation in Python!
+A Python package for an extensible and easy way for advanced maths and its implementation in Python!
 
-</center>
+This project is being highly worked on as of now, so be sure to keep in mind that most of the things are ought to change in every update and addition planned. 
+
+## 🚀 Installing
+Note: **Python 3.6 or above is required!**
+```bash
+# Windows
+py -3 -m pip install -U HypeMaths
+
+# Linux or MacOS
+python3 -m pip install -U HypeMaths
+
+# Install the development version
+python3 -m pip install -U git+https://github.com/janaSunrise/HypeMaths
+```
+
+## 🤝 Contributing
+
+Contributions, issues and feature requests are welcome. After cloning & setting up project locally, you can just submit 
+a PR to this repo and it will be deployed once it's accepted.
+
+⚠️ It’s good to have descriptive commit messages, or PR titles so that other contributors can understand about your 
+commit or the PR Created. Read [conventional commits](https://www.conventionalcommits.org/en/v1.0.0-beta.3/) before 
+making the commit message.
 
 ## ✌️Maintainers
 We have the following maintainers for this project as of now:
@@ -17,13 +37,5 @@ If you're interested in seeing the **Changelog**, Go [here!](https://github.com/
 
 Be sure to leave a ⭐️ if you like the project!
 
-## ▶ Links
+## ▶ Quick links
 - [Raise an Issue](https://github.com/janaSunrise/HypeMaths/issues)
-
-
-<center>
-
-Made by janaSunrise with ❤
-
-</center>
-
