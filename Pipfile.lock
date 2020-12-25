@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "aa2ce60817e8d1f831bfbaaf5967a10b8cd5d08526ada777b96b323471cd1f26"
+            "sha256": "7fc7ffa7e0e286779e53d8f121b4640d541cf322b61cb6604fdc8dbc63f5828e"
         },
         "pipfile-spec": 6,
         "requires": {},
@@ -90,6 +90,10 @@
             ],
             "index": "pypi",
             "version": "==0.18.1"
+        },
+        "hypemaths": {
+            "editable": true,
+            "path": "."
         },
         "identify": {
             "hashes": [

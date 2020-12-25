@@ -2,19 +2,19 @@
 
 A Python package for an extensible and easy way for advanced maths and its implementation in Python!
 
-This project is being highly worked on as of now, so be sure to keep in mind that most of the things are ought to change in every update and addition planned. 
+This project is being highly worked on as of now, so be sure to keep in mind that most of the things are ought to change in every update and addition planned.
 
 ## 🚀 Installing
 Note: **Python 3.6 or above is required!**
 ```bash
 # Windows
-py -3 -m pip install -U HypeMaths
+py -3 -m pip install HypeMaths
 
 # Linux or MacOS
-python3 -m pip install -U HypeMaths
+python3 -m pip install HypeMaths
 
 # Install the development version
-python3 -m pip install -U git+https://github.com/janaSunrise/HypeMaths
+python3 -m pip install git+https://github.com/janaSunrise/HypeMaths
 ```
 
 ## 🤝 Contributing
