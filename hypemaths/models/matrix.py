@@ -50,15 +50,12 @@ class Matrix:
 
         matrix = [matrix] if not contains_sublist(matrix) else matrix
         if value_check(matrix):
-            if not contains_sublist(matrix):
-                return matrix
-            else:
-                len_set = set([len(x) for x in matrix])
-                if len(len_set) > 1 and value_check(matrix):
-                    raise InvalidMatrixError(
-                        "Matrix sizes are invalid! Must have same number of element in each sub list."
-                    )
-                return matrix
+            len_set = set([len(x) for x in matrix])
+            if len(len_set) > 1 and value_check(matrix):
+                raise InvalidMatrixError(
+                    "Matrix sizes are invalid! Must have same number of element in each sub list."
+                )
+            return matrix
 
     @staticmethod
     def _create_filled_matrix(dims: tuple, fill: t.Union[int, float]) -> list:
