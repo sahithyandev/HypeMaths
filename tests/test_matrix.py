@@ -9,7 +9,6 @@ class ValidMatrixTests(unittest.TestCase):
     def test_valid_matrix(self) -> None:
         test_cases = (
             (Matrix(1), [[1]]),
-            (Matrix([1, 2, 3, 4]), [1, 2, 3, 4]),
             (Matrix([[1, 2, 3, 4]]), [[1, 2, 3, 4]]),
             (Matrix([[1, 2], [3, 4]]), [[1, 2], [3, 4]])
         )

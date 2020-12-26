@@ -21,10 +21,7 @@ class Matrix:
 
     @property
     def cols(self) -> int:
-        try:
-            return len(self.matrix[0])
-        except TypeError:  #
-            return 1
+        return len(self.matrix[0])
 
     @property
     def dims(self) -> tuple:
@@ -41,25 +38,17 @@ class Matrix:
 
         def value_check(mat: list) -> bool:
             for row, row_values in enumerate(mat):
-                if not contains_sublist(mat):
-                    if not isinstance(row_values, (int, float)):
+                for col, value in enumerate(row_values):
+                    if not isinstance(value, (int, float)):
                         raise TypeError(
-                            f"All values must be integers or floats, but value[{row}] is {type(row_values)}"
+                            f"All values must be integers or floats, but value[{row}][{col}] is {type(value)}"
                         )
-                else:
-                    for col, value in enumerate(row_values):
-                        if not isinstance(value, (int, float)):
-                            raise TypeError(
-                                f"All values must be integers or floats, but value[{row}][{col}] is {type(value)}"
-                            )
             return True
 
         if isinstance(matrix, (int, float)):
             return [[matrix]]
 
-        if isinstance(matrix, (int, float)):
-            return [[matrix]]
-
+        matrix = [matrix] if not contains_sublist(matrix) else matrix
         if value_check(matrix):
             if not contains_sublist(matrix):
                 return matrix
