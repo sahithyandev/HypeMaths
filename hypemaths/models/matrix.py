@@ -9,9 +9,9 @@ class Matrix:
     ) -> None:
         if not matrix:
             if not dims or fill:
+                self.matrix = self._create_filled_matrix(dims, fill)
+            else:
                 raise ValueError("You need to pass the dimensions of the matrix or the fill value!")
-
-            self.matrix = self._create_filled_matrix(dims, fill)
         else:
             self.matrix = self._cleaned_matrix(matrix)
 
@@ -21,7 +21,10 @@ class Matrix:
 
     @property
     def cols(self) -> int:
-        return len(self.matrix[0])
+        try:
+            return len(self.matrix[0])
+        except TypeError:  #
+            return 1
 
     @property
     def dims(self) -> tuple:
@@ -59,7 +62,7 @@ class Matrix:
 
         if value_check(matrix):
             if not contains_sublist(matrix):
-                return [matrix]
+                return matrix
             else:
                 len_set = set([len(x) for x in matrix])
                 if len(len_set) > 1 and value_check(matrix):
