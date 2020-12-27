@@ -30,6 +30,17 @@ class Matrix:
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}({self.matrix})"
 
+    def multiply_by_number(self, number):
+        '''
+        Multiplies the current matrix with a number.
+
+        @note this method changes the current matrix
+        '''
+        original_matrix = self.matrix
+        for row, row_values in enumerate(original_matrix):
+            for column, value in enumerate(row_values):
+                self.matrix[row][column] = number * value
+
     @staticmethod
     def _cleaned_matrix(matrix: list) -> list:
         """Checks if a matrix passed is valid or not and returns the clean matrix."""
