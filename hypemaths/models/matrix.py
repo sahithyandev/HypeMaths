@@ -55,6 +55,14 @@ class Matrix:
 
         return cls(matrix)
 
+    def __sub__(self, other: "Matrix") -> "Matrix":
+        cls = self.__class__
+
+        if not isinstance(other, cls):
+            raise TypeError(f"Matrix can only be added with other matrix. Not {type(other)}")
+
+        return (self + other * -1)
+
     def __mul__(self, other: t.Union["Matrix", int, float]) -> "Matrix":
         cls = self.__class__
 
