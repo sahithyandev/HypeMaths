@@ -8,14 +8,14 @@ class Matrix:
             self, matrix: t.Union[int, float, list] = None, dims: tuple = None, fill: t.Union[int, float] = None
     ) -> None:
         if not matrix:
-            if not dims or fill != None:
+            if not dims or fill is not None:
                 self.matrix = self._create_filled_matrix(dims, fill)
             else:
                 raise ValueError("You need to pass the dimensions of the matrix or the fill value!")
         else:
             self.matrix = self._cleaned_matrix(matrix)
 
-    def __getitem__(self, row_index):
+    def __getitem__(self, row_index: int):
         return self.matrix[row_index]
 
     @property
@@ -33,7 +33,7 @@ class Matrix:
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}({self.matrix})"
 
-    def multiply_by_number(self, number):
+    def multiply_by_number(self, number: t.Union[int, float]) -> 'Matrix':
         '''
         Multiplies the current matrix with a number.
         '''
@@ -49,7 +49,7 @@ class Matrix:
 
         return new_matrix
 
-    def transpose(self):
+    def transpose(self) -> 'Matrix':
         '''
         Transposes the matrix
         '''
@@ -63,7 +63,7 @@ class Matrix:
         return new_matrix
 
     @staticmethod
-    def multiply_by_matrix(A, B) -> list:
+    def multiply_by_matrix(A: 'Matrix', B: 'Matrix') -> 'Matrix':
         '''
         Multiplies two matrices and returns a new matrix
         Takes in 2 matrices a, b
@@ -72,7 +72,7 @@ class Matrix:
             raise TypeError(f"Expected 2 Matrices but got {type(A).__name__}, {type(B).__name__}")
 
         if A.cols != B.rows:
-            raise Exception("For matrix multiplication, the number of columns in the first matrix must be equal to the number of rows in the second matrix.")
+            raise Exception("For matrix multiplication, A.cols must be equal to B.rows")
 
         new_matrix = Matrix(dims=[A.rows, B.cols], fill=0)
 
@@ -88,7 +88,7 @@ class Matrix:
         return new_matrix
 
     @staticmethod
-    def add_matrices(A, B):
+    def add_matrices(A: 'Matrix', B: 'Matrix') -> 'Matrix':
         if not (Matrix.is_matrix(A) and Matrix.is_matrix(B)):
             raise TypeError(f"Expected 2 Matrices but got {type(A).__name__}, {type(B).__name__}")
 
@@ -103,7 +103,7 @@ class Matrix:
         return added_matrix
 
     @staticmethod
-    def is_matrix(A):
+    def is_matrix(A: 'Matrix') -> bool:
         # TODO try not to use hard code "Matrix" here
         return type(A).__name__ == 'Matrix'
 
