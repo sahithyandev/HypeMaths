@@ -32,7 +32,9 @@ class Matrix:
 
     def __eq__(self, other: "Matrix") -> bool:
         if not isinstance(other, Matrix):
-            raise TypeError(f"Equality comparison with Matrix can only be performed with another Matrix, got {type(other)}")
+            raise TypeError(
+                f"Equality comparison with Matrix can only be performed with another Matrix, got {type(other)}"
+            )
 
         return self.matrix == other.matrix
 
