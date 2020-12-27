@@ -37,8 +37,11 @@ class Matrix:
         '''
         Multiplies the current matrix with a number.
 
-        @note this method changes the current matrix
+        @note Mutates the current matrix
         '''
+        if type(number) is not int:
+            raise TypeError(f"Expected `int` but got {type(number).__name__} ({number})")
+
         original_matrix = self.matrix
         for row, row_values in enumerate(original_matrix):
             for column, value in enumerate(row_values):
@@ -50,8 +53,11 @@ class Matrix:
         Multiplies two matrices and returns a new matrix
         Takes in 2 matrices a, b
         '''
+        if not (Matrix.is_matrix(A) and Matrix.is_matrix(B)):
+            raise TypeError(f"Expected 2 Matrices but got {type(A).__name__}, {type(B).__name__}")
+
         if A.cols != B.rows:
-            raise "For matrix multiplication, the number of columns in the first matrix must be equal to the number of rows in the second matrix."
+            raise Exception("For matrix multiplication, the number of columns in the first matrix must be equal to the number of rows in the second matrix.")
 
         new_matrix = Matrix(dims=[A.rows, B.cols], fill=0)
 
@@ -65,6 +71,11 @@ class Matrix:
                 # print(row, column)
 
         return new_matrix
+
+    @staticmethod
+    def is_matrix(A):
+        # TODO try not to use hard code "Matrix" here
+        return type(A).__name__ == 'Matrix'
 
     @staticmethod
     def _cleaned_matrix(matrix: list) -> list:
