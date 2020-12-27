@@ -8,12 +8,15 @@ class Matrix:
             self, matrix: t.Union[int, float, list] = None, dims: tuple = None, fill: t.Union[int, float] = None
     ) -> None:
         if not matrix:
-            if not dims or fill:
+            if not dims or fill != None:
                 self.matrix = self._create_filled_matrix(dims, fill)
             else:
                 raise ValueError("You need to pass the dimensions of the matrix or the fill value!")
         else:
             self.matrix = self._cleaned_matrix(matrix)
+
+    def __getitem__(self, row_index):
+        return self.matrix[row_index]
 
     @property
     def rows(self) -> int:
@@ -40,6 +43,28 @@ class Matrix:
         for row, row_values in enumerate(original_matrix):
             for column, value in enumerate(row_values):
                 self.matrix[row][column] = number * value
+
+    @staticmethod
+    def multiply_by_matrix(A, B) -> list:
+        '''
+        Multiplies two matrices and returns a new matrix
+        Takes in 2 matrices a, b
+        '''
+        if A.cols != B.rows:
+            raise "For matrix multiplication, the number of columns in the first matrix must be equal to the number of rows in the second matrix."
+
+        new_matrix = Matrix(dims=[A.rows, B.cols], fill=0)
+
+        for row_i in range(A.rows):
+            for column_i in range(B.cols):
+                sum = 0
+                for k in range(A.cols):
+                    sum += A[row_i][k] * B[k][column_i]
+
+                new_matrix[row_i][column_i] = sum
+                # print(row, column)
+
+        return new_matrix
 
     @staticmethod
     def _cleaned_matrix(matrix: list) -> list:
@@ -78,7 +103,18 @@ class Matrix:
                 f"The fill value must be integer or float, but the given fill value is {type(fill)}."
             )
 
-        return [[fill] * dims[1]] * dims[0]
+        # Reason:
+        #   n = Matrix(dims=[2, 3], fill=0)
+        #   n[1][1] = 45
+        #   print(n) # Matrix([[0, 45, 0], [0, 45, 0]])
+        # to stop this from happening
+
+        matrix_structure = []
+        first_row = [fill] * dims[1]
+        for _ in range(dims[0]):
+            matrix_structure.append(first_row.copy())
+
+        return matrix_structure
 
     def _get_mat_dimension(self, matrix: list) -> list:
         if not isinstance(matrix, list):
