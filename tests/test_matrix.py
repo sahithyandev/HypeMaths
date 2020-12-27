@@ -56,3 +56,24 @@ class MatrixAttributesTests(unittest.TestCase):
 
         for matrix, column_value in test_cases:
             self.assertEqual(matrix.cols, column_value)
+
+    def test_matrix_dims(self) -> None:
+        test_cases = (
+            (Matrix(1), (1, 1)),
+            (Matrix([1, 2, 3, 4]), (1, 4)),
+            (Matrix([[1, 2], [3, 4]]), (2, 2)),
+            (
+                Matrix([
+                    [1, 2, 3],
+                    [4, 5, 6],
+                    [7, 8, 9]
+                ]), (3, 3)
+            )
+        )
+
+        for matrix, matrix_dims in test_cases:
+            self.assertEqual(matrix.dims, matrix_dims)
+
+
+class MatrixOperationTests(unittest.TestCase):
+    pass
