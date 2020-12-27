@@ -36,16 +36,19 @@ class Matrix:
     def multiply_by_number(self, number):
         '''
         Multiplies the current matrix with a number.
-
-        @note Mutates the current matrix
         '''
         if type(number) is not int:
             raise TypeError(f"Expected `int` but got {type(number).__name__} ({number})")
 
         original_matrix = self.matrix
-        for row, row_values in enumerate(original_matrix):
-            for column, value in enumerate(row_values):
-                self.matrix[row][column] = number * value
+        new_matrix = Matrix(dims=[original_matrix.rows, original_matrix.cols], fill=0)
+
+        for row_i in range(original_matrix.rows):
+            for column_i in range(original_matrix.cols):
+                new_matrix[row_i][column_i] = number * original_matrix[row_i][column_i]
+
+        return new_matrix
+
 
     @staticmethod
     def multiply_by_matrix(A, B) -> list:
