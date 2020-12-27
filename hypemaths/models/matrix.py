@@ -49,6 +49,18 @@ class Matrix:
 
         return new_matrix
 
+    def transpose(self):
+        '''
+        Transposes the matrix
+        '''
+        # [A.cols, A.rows] is the dimension of the new matrix
+        new_matrix = Matrix(dims=[self.cols, self.rows], fill=0)
+
+        for row_i in range(self.rows):
+            for column_i in range(self.cols):
+                new_matrix[column_i][row_i] = self[row_i][column_i]
+
+        return new_matrix
 
     @staticmethod
     def multiply_by_matrix(A, B) -> list:
