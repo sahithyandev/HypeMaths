@@ -38,11 +38,22 @@ class Matrix:
 
         return self.matrix == other.matrix
 
-    def __getitem__(self, index: int) -> t.Union[int, float, list]:
-        return self.matrix[index]
+    def __getitem__(self, index: t.Union[int, tuple]) -> t.Union[int, float, list]:
+        if isinstance(index, int):
+            return self.matrix[index]
+        else:
+            return self.matrix[index[0]][index[1]]
 
-    def __setitem__(self, index: int, value: list) -> None:
-        self.matrix[index] = value
+    def __setitem__(self, index: t.Union[int, tuple], value: t.Union[int, float]) -> None:
+        if isinstance(value, (int, float)):
+            if isinstance(index, int):
+                self.matrix[index] = value
+            else:
+                self.matrix[index[0]][index[1]] = value
+        else:
+            raise TypeError(
+                f"All values must be integers or floats, but value[{value}] is {type(value)}."
+            )
 
     def __add__(self, other: "Matrix") -> "Matrix":
         cls = self.__class__
@@ -61,16 +72,17 @@ class Matrix:
         cls = self.__class__
 
         if not isinstance(other, cls):
-            raise TypeError(f"Matrix can only be added with other matrix. Not {type(other)}")
+            raise TypeError(f"Matrix can only be subtracted with other matrix. Not {type(other)}")
 
-        return (self + other * -1)
+        if not (self.rows, self.cols) == (other.rows, other.cols):
+            raise MatrixDimensionError("These matrices cannot be subtracted due to wrong dimensions.")
+
+        matrix = [[self[row][cols] - other[row][cols] for cols in range(self.cols)] for row in range(self.rows)]
+
+        return cls(matrix)
 
     def __mul__(self, other: t.Union["Matrix", int, float]) -> "Matrix":
         cls = self.__class__
-
-        if isinstance(other, int) or isinstance(other, float):
-            matrix = [[other * element for element in self_row] for self_row in self]
-            return cls(matrix)
 
         if not isinstance(other, cls):
             raise TypeError(f"Matrix can only be multiplied with other matrix. Not {type(other)}")
@@ -83,6 +95,15 @@ class Matrix:
         ]
 
         return cls(matrix)
+
+    def __radd__(self, other: "Matrix") -> "Matrix":
+        return self.__add__(other)
+
+    def __rmul__(self, other: "Matrix") -> "Matrix":
+        return self.__mul__(other)
+
+    def __matmul__(self, other: "Matrix") -> "Matrix":
+        return self.__mul__(other)
 
     def transpose(self) -> "Matrix":
         """Transposes the matrix."""
