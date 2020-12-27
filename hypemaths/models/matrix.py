@@ -55,8 +55,12 @@ class Matrix:
 
         return cls(matrix)
 
-    def __mul__(self, other: "Matrix") -> "Matrix":
+    def __mul__(self, other: t.Union["Matrix", int, float]) -> "Matrix":
         cls = self.__class__
+
+        if isinstance(other, int) or isinstance(other, float):
+            matrix = [[other * element for element in self_row] for self_row in self]
+            return cls(matrix)
 
         if not isinstance(other, cls):
             raise TypeError(f"Matrix can only be multiplied with other matrix. Not {type(other)}")
