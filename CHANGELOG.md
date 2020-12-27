@@ -15,6 +15,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Option for making a matrix with a given dimension and fill value.
 - Dynamic representation of the matrix.
 - Tests for ensuring the matrix model works well.
+- Added support for operations between matrices:
+  - `+`: Addition
+  - `*`: Multiplication
 
 ### Fixed
 
