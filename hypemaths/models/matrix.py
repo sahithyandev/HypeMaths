@@ -73,6 +73,21 @@ class Matrix:
         return new_matrix
 
     @staticmethod
+    def add_matrices(A, B):
+        if not (Matrix.is_matrix(A) and Matrix.is_matrix(B)):
+            raise TypeError(f"Expected 2 Matrices but got {type(A).__name__}, {type(B).__name__}")
+
+        if A.cols != B.cols or A.rows != B.rows:
+            raise Exception("Two matrices must have an equal number of rows and columns to be added.")
+
+        added_matrix = Matrix(dims=[A.rows, A.cols], fill=0)
+        for i in range(A.rows):
+            for j in range(A.cols):
+                added_matrix[i][j] = A[i][j] + B[i][j]
+
+        return added_matrix
+
+    @staticmethod
     def is_matrix(A):
         # TODO try not to use hard code "Matrix" here
         return type(A).__name__ == 'Matrix'
