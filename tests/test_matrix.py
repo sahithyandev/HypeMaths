@@ -110,7 +110,6 @@ class MatrixOperationTests(unittest.TestCase):
             self.assertEqual(matrix_a * matrix_b, output_matrix)
 
 
-
 class MatrixTranspositionTests(unittest.TestCase):
     """Tests for matrix transposition"""
 
