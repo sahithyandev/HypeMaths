@@ -77,6 +77,20 @@ class MatrixAttributesTests(unittest.TestCase):
             self.assertEqual(matrix.dims, matrix_dims)
 
 
+class MatrixOperationTests(unittest.TestCase):
+    def test_matrix_multiplication(self) -> None:
+        test_cases = (
+            # (matrix_a, matrix_b, matrix_ab)
+            (Matrix(1), Matrix(2), Matrix(2)),
+            (Matrix([1, 2]), Matrix([[3], [4]]), Matrix(11)),
+            (Matrix([[1, 2], [3, 4]]), Matrix([[5, 6, 7], [8, 9, 10]]), Matrix([[21, 24, 27], [47, 54, 61]])),
+        )
+
+        for matrix_a, matrix_b, output_matrix in test_cases:
+            self.assertEqual(matrix_a * matrix_b, output_matrix)
+
+
+
 class MatrixTranspositionTests(unittest.TestCase):
     "Tests for matrix transposition"
 
