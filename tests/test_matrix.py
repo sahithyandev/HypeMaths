@@ -76,4 +76,20 @@ class MatrixAttributesTests(unittest.TestCase):
 
 
 class MatrixOperationTests(unittest.TestCase):
-    pass
+    def test_matrix_addition(self) -> None:
+        test_cases = (
+            (Matrix(1), Matrix(1), Matrix([[2]])),
+            (
+                Matrix([1, 2, 3, 4]),
+                Matrix([6, 6, 2, 6]),
+                Matrix([[7, 8, 5, 10]])
+            ),
+            (
+                Matrix([[5, 6], [9, 3]]),
+                Matrix([[3, 8], [9, 2]]),
+                Matrix([[8, 14], [18, 5]])
+            )
+        )
+
+        for matrix_a, matrix_b, matrix_sum in test_cases:
+            self.assertEqual(matrix_a + matrix_b, matrix_sum)
