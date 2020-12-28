@@ -4,3 +4,7 @@ class InvalidMatrixError(Exception):
 
 class MatrixDimensionError(Exception):
     pass
+
+
+class MatrixNotSquare(Exception):
+    pass

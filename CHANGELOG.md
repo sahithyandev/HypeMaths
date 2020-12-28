@@ -17,7 +17,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Tests for ensuring the matrix model works well.
 - Added support for operations between matrices:
   - `+`: Addition
+  - `-`: Subtraction
   - `*`: Multiplication
+- An easier shortcut for accessing elements, and setting values:
+  - Setting elements: `matrix[0, 0] = 4.3`
+  - Getting elements: `matrix[1, 1]`
 
 ### Fixed
 

@@ -26,6 +26,10 @@ a PR to this repo and it will be deployed once it's accepted.
 commit or the PR Created. Read [conventional commits](https://www.conventionalcommits.org/en/v1.0.0-beta.3/) before 
 making the commit message.
 
+**NOTE FOR CONTRIBUTION**: In order to keep the developement code separate from the production code, we have taken a 
+decision of using a branch `dev` for any pushes, or contributions. Once all the code is tested and working, we'll merge 
+it into `main` branch, and make a release for the package.
+
 ## ✌️Maintainers
 We have the following maintainers for this project as of now:
 - [Sunrit Jana](https://github.com/janaSunrise)

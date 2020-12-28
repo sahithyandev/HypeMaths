@@ -1,6 +1,11 @@
+import copy
 import typing as t
 
-from hypemaths.exceptions import InvalidMatrixError, MatrixDimensionError
+from hypemaths.exceptions import (
+    InvalidMatrixError,
+    MatrixDimensionError,
+    MatrixNotSquare,
+)
 
 
 class Matrix:
@@ -32,15 +37,28 @@ class Matrix:
 
     def __eq__(self, other: "Matrix") -> bool:
         if not isinstance(other, Matrix):
-            raise TypeError(f"Equality comparison with Matrix can only be performed with another Matrix, got {type(other)}")
+            raise TypeError(
+                f"Equality comparison with Matrix can only be performed with another Matrix, got {type(other)}"
+            )
 
         return self.matrix == other.matrix
 
-    def __getitem__(self, index: int) -> t.Union[int, float, list]:
-        return self.matrix[index]
+    def __getitem__(self, index: t.Union[int, tuple]) -> t.Union[int, float, list]:
+        if isinstance(index, int):
+            return self.matrix[index]
+        else:
+            return self.matrix[index[0]][index[1]]
 
-    def __setitem__(self, index: int, value: list) -> None:
-        self.matrix[index] = value
+    def __setitem__(self, index: t.Union[int, tuple], value: t.Union[int, float]) -> None:
+        if isinstance(value, (int, float)):
+            if isinstance(index, int):
+                self.matrix[index] = value
+            else:
+                self.matrix[index[0]][index[1]] = value
+        else:
+            raise TypeError(
+                f"All values must be integers or floats, but value[{value}] is {type(value)}."
+            )
 
     def __add__(self, other: "Matrix") -> "Matrix":
         cls = self.__class__
@@ -59,16 +77,17 @@ class Matrix:
         cls = self.__class__
 
         if not isinstance(other, cls):
-            raise TypeError(f"Matrix can only be added with other matrix. Not {type(other)}")
+            raise TypeError(f"Matrix can only be subtracted with other matrix. Not {type(other)}")
 
-        return (self + other * -1)
+        if not (self.rows, self.cols) == (other.rows, other.cols):
+            raise MatrixDimensionError("These matrices cannot be subtracted due to wrong dimensions.")
 
-    def __mul__(self, other: t.Union["Matrix", int, float]) -> "Matrix":
+        matrix = [[self[row][cols] - other[row][cols] for cols in range(self.cols)] for row in range(self.rows)]
+
+        return cls(matrix)
+
+    def __mul__(self, other: t.Union["Matrix"]) -> "Matrix":
         cls = self.__class__
-
-        if isinstance(other, int) or isinstance(other, float):
-            matrix = [[other * element for element in self_row] for self_row in self]
-            return cls(matrix)
 
         if not isinstance(other, cls):
             raise TypeError(f"Matrix can only be multiplied with other matrix. Not {type(other)}")
@@ -81,6 +100,30 @@ class Matrix:
         ]
 
         return cls(matrix)
+
+    def __truediv__(self, other: "Matrix") -> "Matrix":
+        cls = self.__class__
+
+        if not isinstance(other, cls):
+            raise TypeError(f"Matrix can only be divided with other matrix. Not {type(other)}")
+
+        if self.cols != other.rows:
+            raise MatrixDimensionError("These matrices cannot be divided due to wrong dimensions.")
+
+        matrix = [[
+            sum(a / b for a, b in zip(self_row, other_col)) for other_col in zip(*other)] for self_row in self
+        ]
+
+        return cls(matrix)
+
+    def __radd__(self, other: "Matrix") -> "Matrix":
+        return self.__add__(other)
+
+    def __rmul__(self, other: "Matrix") -> "Matrix":
+        return self.__mul__(other)
+
+    def __matmul__(self, other: "Matrix") -> "Matrix":
+        return self.__mul__(other)
 
     def transpose(self) -> "Matrix":
         """Transposes the matrix."""
@@ -138,3 +181,15 @@ class Matrix:
         if not isinstance(matrix, list):
             return []
         return [len(matrix)] + self._get_mat_dimension(matrix[0])
+
+    def clone(self) -> "Matrix":
+        return copy.deepcopy(self)
+
+    def trace(self) -> t.Union[int, float]:
+        if self.rows != self.cols:
+            raise MatrixNotSquare("Cannot retrieve the sum of diagonals as the row and column count are not same.")
+
+        total = 0
+        for i in range(self.rows):
+            total += self[i, i]
+        return total

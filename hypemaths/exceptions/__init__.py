@@ -1,1 +1,5 @@
-from hypemaths.exceptions.exceptions import InvalidMatrixError, MatrixDimensionError
+from hypemaths.exceptions.exceptions import (
+    InvalidMatrixError,
+    MatrixDimensionError,
+    MatrixNotSquare
+)
