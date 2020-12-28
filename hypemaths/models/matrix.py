@@ -1,6 +1,11 @@
+import copy
 import typing as t
 
-from hypemaths.exceptions import InvalidMatrixError, MatrixDimensionError
+from hypemaths.exceptions import (
+    InvalidMatrixError,
+    MatrixDimensionError,
+    MatrixNotSquare,
+)
 
 
 class Matrix:
@@ -81,7 +86,7 @@ class Matrix:
 
         return cls(matrix)
 
-    def __mul__(self, other: t.Union["Matrix", int, float]) -> "Matrix":
+    def __mul__(self, other: t.Union["Matrix"]) -> "Matrix":
         cls = self.__class__
 
         if not isinstance(other, cls):
@@ -92,6 +97,21 @@ class Matrix:
 
         matrix = [[
             sum(a * b for a, b in zip(self_row, other_col)) for other_col in zip(*other)] for self_row in self
+        ]
+
+        return cls(matrix)
+
+    def __truediv__(self, other: "Matrix") -> "Matrix":
+        cls = self.__class__
+
+        if not isinstance(other, cls):
+            raise TypeError(f"Matrix can only be divided with other matrix. Not {type(other)}")
+
+        if self.cols != other.rows:
+            raise MatrixDimensionError("These matrices cannot be divided due to wrong dimensions.")
+
+        matrix = [[
+            sum(a / b for a, b in zip(self_row, other_col)) for other_col in zip(*other)] for self_row in self
         ]
 
         return cls(matrix)
@@ -161,3 +181,15 @@ class Matrix:
         if not isinstance(matrix, list):
             return []
         return [len(matrix)] + self._get_mat_dimension(matrix[0])
+
+    def clone(self) -> "Matrix":
+        return copy.deepcopy(self)
+
+    def trace(self) -> t.Union[int, float]:
+        if self.rows != self.cols:
+            raise MatrixNotSquare("Cannot retrieve the sum of diagonals as the row and column count are not same.")
+
+        total = 0
+        for i in range(self.rows):
+            total += self[i, i]
+        return total
