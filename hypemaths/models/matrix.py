@@ -89,6 +89,10 @@ class Matrix:
     def __mul__(self, other: t.Union["Matrix"]) -> "Matrix":
         cls = self.__class__
 
+        if isinstance(other, (int, float)):
+            matrix = [[element * other for element in row] for row in self]
+            return cls(matrix)
+
         if not isinstance(other, cls):
             raise TypeError(f"Matrix can only be multiplied with other matrix. Not {type(other)}")
 
@@ -103,6 +107,10 @@ class Matrix:
 
     def __truediv__(self, other: "Matrix") -> "Matrix":
         cls = self.__class__
+
+        if isinstance(other, (int, float)):
+            matrix = [[element / other for element in row] for row in self]
+            return cls(matrix)
 
         if not isinstance(other, cls):
             raise TypeError(f"Matrix can only be divided with other matrix. Not {type(other)}")
