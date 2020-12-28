@@ -9,7 +9,6 @@ from hypemaths.exceptions import (
 
 class ValidMatrixTests(unittest.TestCase):
     """Tests for checking the validation when a Matrix is initialized."""
-
     def test_valid_matrix(self) -> None:
         test_cases = (
             (Matrix(1), [[1]]),
@@ -34,7 +33,6 @@ class ValidMatrixTests(unittest.TestCase):
 
 class MatrixAttributesTests(unittest.TestCase):
     """Tests for checking the attributes when a Matrix is created."""
-
     def test_matrix_rows(self) -> None:
         test_cases = (
             (Matrix(1), 1),
@@ -111,27 +109,6 @@ class MatrixOperationTests(unittest.TestCase):
         for matrix_a, matrix_b, output_matrix in test_cases:
             self.assertEqual(matrix_a * matrix_b, output_matrix)
 
-    def test_matrix_multiplication_invalid_type(self) -> None:
-        """Tests matrix multiplication with other types"""
-        test_cases = (
-            (Matrix(1), 'b'),
-            ('a', Matrix([1, 2])),
-        )
-
-        for a, b in test_cases:
-            with self.assertRaises(TypeError):
-                print(a * b)
-
-    def test_matrix_multiplication_invalid_dimensions(self) -> None:
-        """Tests matrix multiplication with another matrix which has invalid dimensions"""
-        test_cases = (
-            # (matrix_a, matrix_b)
-            (Matrix([[1, 2], [3, 4]]), Matrix(1, 2, 3)),  # can't multiply error
-        )
-
-        for matrix_a, matrix_b in test_cases:
-            with self.assertRaises(MatrixDimensionError):
-                print(matrix_a * matrix_b)
 
 
 class MatrixTranspositionTests(unittest.TestCase):
