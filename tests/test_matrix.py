@@ -1,7 +1,10 @@
 import unittest
 
 from hypemaths import Matrix
-from hypemaths.exceptions import InvalidMatrixError
+from hypemaths.exceptions import (
+    InvalidMatrixError,
+    MatrixDimensionError
+)
 
 
 class ValidMatrixTests(unittest.TestCase):
@@ -97,6 +100,7 @@ class MatrixOperationTests(unittest.TestCase):
             self.assertEqual(matrix_a + matrix_b, matrix_sum)
 
     def test_matrix_multiplication(self) -> None:
+        """Tests matrix multiplication with another matrix"""
         test_cases = (
             # (matrix_a, matrix_b, matrix_ab)
             (Matrix(1), Matrix(2), Matrix(2)),
@@ -107,9 +111,31 @@ class MatrixOperationTests(unittest.TestCase):
         for matrix_a, matrix_b, output_matrix in test_cases:
             self.assertEqual(matrix_a * matrix_b, output_matrix)
 
+    def test_matrix_multiplication_invalid_type(self) -> None:
+        """Tests matrix multiplication with other types"""
+        test_cases = (
+            (Matrix(1), 'b'),
+            ('a', Matrix([1, 2])),
+        )
+
+        for a, b in test_cases:
+            with self.assertRaises(TypeError):
+                print(a * b)
+
+    def test_matrix_multiplication_invalid_dimensions(self) -> None:
+        """Tests matrix multiplication with another matrix which has invalid dimensions"""
+        test_cases = (
+            # (matrix_a, matrix_b)
+            (Matrix([[1, 2], [3, 4]]), Matrix(1, 2, 3)),  # can't multiply error
+        )
+
+        for matrix_a, matrix_b in test_cases:
+            with self.assertRaises(MatrixDimensionError):
+                print(matrix_a * matrix_b)
+
 
 class MatrixTranspositionTests(unittest.TestCase):
-    "Tests for matrix transposition"
+    """Tests for matrix transposition"""
 
     def test_matrix_transposition(self) -> None:
         test_cases = (
