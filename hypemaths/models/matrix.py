@@ -10,7 +10,10 @@ from hypemaths.exceptions import (
 
 class Matrix:
     def __init__(
-            self, matrix: t.Union[int, float, list] = None, dims: tuple = None, fill: t.Union[int, float] = None
+            self,
+            matrix: t.Union[int, float, list] = None,
+            dims: tuple = None,
+            fill: t.Union[int, float] = None,
     ) -> None:
         if not matrix:
             if not dims or fill is not None:
