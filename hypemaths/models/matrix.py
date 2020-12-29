@@ -1,6 +1,7 @@
 import copy
 import typing as t
 
+import hypemaths as hm
 from hypemaths.exceptions import (
     InvalidMatrixError,
     MatrixDimensionError,
@@ -204,3 +205,11 @@ class Matrix:
         for i in range(self.rows):
             total += self[i, i]
         return total
+
+    @classmethod
+    def from_vector(cls, vector: "hm.Vector") -> "Matrix":
+        matrix_list = []
+        for value in vector:
+            matrix_list.append([value])
+
+        return cls(matrix_list)
