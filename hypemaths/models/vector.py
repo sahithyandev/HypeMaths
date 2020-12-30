@@ -6,7 +6,7 @@ from hypemaths.exceptions import MatrixDimensionError
 
 class Vector:
     def __init__(self, *points) -> None:
-        self.vector = self._cleaned_vector(points)
+        self.points = self._cleaned_vector(points)
 
     @staticmethod
     def _cleaned_vector(points: tuple) -> list:
@@ -31,10 +31,10 @@ class Vector:
         return len(self)
 
     def __len__(self) -> int:
-        return len(self.vector)
+        return len(self.points)
 
     def __repr__(self) -> str:
-        return f"{self.__class__.__name__}({self.vector})"
+        return f"{self.__class__.__name__}({self.points})"
 
     def __eq__(self, other: "Vector") -> bool:
         if not isinstance(other, Vector):
@@ -42,21 +42,21 @@ class Vector:
                 f"Equality comparison with vector can only be performed with another vector, got {type(other)}"
             )
 
-        return self.vector == other.vector
+        return self.points == other.points
 
     def __getitem__(self, index: int) -> t.Union[int, float]:
-        return self.vector[index]
+        return self.points[index]
 
     def __setitem__(self, index: t.Union[int, tuple], value: t.Union[int, float]) -> None:
         if isinstance(value, (int, float)):
-            self.vector[index] = value
+            self.points[index] = value
         else:
             raise TypeError(
                 f"All values must be integers or floats, but value[{value}] is {type(value)}."
             )
 
     def __delitem__(self, index: int) -> None:
-        del self.vector[index]
+        del self.points[index]
 
     @classmethod
     def from_matrix(cls, matrix: "hm.Matrix") -> "Vector":
@@ -64,5 +64,4 @@ class Vector:
             raise MatrixDimensionError("Matrix must only have 1 column.")
 
         points = [column[0] for column in matrix]
-
         return cls(*points)
