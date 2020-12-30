@@ -137,14 +137,6 @@ class Matrix:
     def __matmul__(self, other: "Matrix") -> "Matrix":
         return self.__mul__(other)
 
-    def transpose(self) -> "Matrix":
-        """Transposes the matrix."""
-        cls = self.__class__
-
-        matrix = [[self[cols][row] for cols in range(self.rows)] for row in range(self.cols)]
-
-        return cls(matrix)
-
     @staticmethod
     def _cleaned_matrix(matrix: list) -> list:
         """Checks if a matrix passed is valid or not and returns the clean matrix."""
@@ -205,6 +197,14 @@ class Matrix:
         for i in range(self.rows):
             total += self[i, i]
         return total
+
+    def transpose(self) -> "Matrix":
+        """Transposes the matrix."""
+        cls = self.__class__
+
+        matrix = [[self[cols][row] for cols in range(self.rows)] for row in range(self.cols)]
+
+        return cls(matrix)
 
     @classmethod
     def from_vector(cls, vector: "hm.Vector") -> "Matrix":

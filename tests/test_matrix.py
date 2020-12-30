@@ -114,7 +114,7 @@ class MatrixOperationTests(unittest.TestCase):
             self.assertEqual(matrix_a * matrix_b, output_matrix)
 
 
-class MatrixTranspositionTests(unittest.TestCase):
+class MatrixMethodTests(unittest.TestCase):
     """Tests for matrix transposition."""
     def test_matrix_transposition(self) -> None:
         test_cases = (
@@ -140,3 +140,31 @@ class MatrixTranspositionTests(unittest.TestCase):
 
         for matrix, output_matrix in test_cases:
             self.assertEqual(matrix.transpose(), output_matrix)
+
+    def test_matrix_copy(self) -> None:
+        test_cases = (
+            (Matrix(1), Matrix(1)),
+            (Matrix([1, 2, 6]), Matrix([1, 2, 6])),
+            (
+                Matrix([[1, 6], [2, 5]]),
+                Matrix([[1, 6], [2, 5]])
+            )
+        )
+
+        for matrix, cloned_matrix in test_cases:
+            self.assertEqual(matrix.clone(), cloned_matrix)
+
+    def test_matrix_tracing(self) -> None:
+        test_cases = (
+            (
+                Matrix([[1, 2], [3, 4]]),
+                5
+            ),
+            (
+                Matrix([[1, 2, 3], [4, 5, 6], [7, 8, 9]]),
+                15
+            )
+        )
+
+        for matrix, diagonal_sum in test_cases:
+            self.assertEqual(matrix.trace(), diagonal_sum)
