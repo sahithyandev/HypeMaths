@@ -16,6 +16,14 @@ class Matrix:
             dims: tuple = None,
             fill: t.Union[int, float] = None,
     ) -> None:
+        """
+        :param matrix: This is the nested 2D lists which will be converted into an efficient `Matrix` object
+        capable of several calculations and features
+        :param dims: This is the dimensions of the fill matrix, created when the `matrix` parameter is not specified and
+        only this value and the fill value is provided.
+        :param fill: This is the fill value, which works with the `dims` parameter to create a filled matrix with the
+        given value.
+        """
         if not matrix:
             if not dims or fill is not None:
                 self.matrix = self._create_filled_matrix(dims, fill)
@@ -26,14 +34,23 @@ class Matrix:
 
     @property
     def rows(self) -> int:
+        """
+        :return: Returns the number of rows in the 2D matrix created.
+        """
         return len(self.matrix)
 
     @property
     def cols(self) -> int:
+        """
+        :return: Returns the number of the columns in the 2D matrix created.
+        """
         return len(self.matrix[0])
 
     @property
     def dims(self) -> tuple:
+        """
+        :return: Returns a tuple containing the shape or the rows and columns in the matrix created.
+        """
         return tuple(self._get_mat_dimension(self.matrix))
 
     def __repr__(self) -> str:
@@ -139,11 +156,29 @@ class Matrix:
 
     @staticmethod
     def _cleaned_matrix(matrix: list) -> list:
-        """Checks if a matrix passed is valid or not and returns the clean matrix."""
+        """
+        Checks if a matrix passed is valid or not and returns the processed and cleaned matrix.
+
+        :param matrix: The matrix passed to this function for processing, validation and cleaning.
+        :return: The list consisting the validated and cleaned matrix after passing the checks.
+
+        :raises TypeError: if the matrix contains any datatype other than `int` or `float`.
+        :raises InvalidMatrixError: if the matrix has invalid size or cannot be validated.
+        """
         def contains_sublist(mat: list) -> bool:
+            """
+            :param mat: The matrix passed for checking if it contains sublist.
+            :return: if the matrix passed contains sublist.
+            """
             return all(isinstance(element, list) for element in mat)
 
         def value_check(mat: list) -> bool:
+            """
+            :param mat: The matrix passed for validating the datatypes in it.
+            :return: if the matrix contains any datatypes other than `int` or `float`.
+
+            :raise TypeError: raised if the matrix consists of value which is not a `int` or `float`.
+            """
             for row, row_values in enumerate(mat):
                 for col, value in enumerate(row_values):
                     if not isinstance(value, (int, float)):
