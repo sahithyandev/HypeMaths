@@ -396,8 +396,5 @@ class Matrix:
         >>> Matrix.from_vector(vec)
         Matrix([[1], [2], [3], [4]])
         """
-        matrix_list = []
-        for value in vector:
-            matrix_list.append([value])
-
+        matrix_list = [[value] for value in vector]
         return cls(matrix_list)
