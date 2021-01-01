@@ -17,15 +17,20 @@ class Matrix:
             fill: t.Union[int, float] = None,
     ) -> None:
         """
-        :param matrix: This is the nested 2D lists which will be converted into an efficient `Matrix` object
-        capable of several calculations and features
-        :param dims: This is the dimensions of the fill matrix, created when the `matrix` parameter is not specified and
-        only this value and the fill value is provided.
-        :param fill: This is the fill value, which works with the `dims` parameter to create a filled matrix with the
-        given value.
+        Parameters
+        ----------
+        matrix : t.Union[int, float, list]
+            This is the nested 2D lists which will be converted into an efficient `Matrix` object capable of several
+            calculations and features. Defaults to `None`.
+        dims : tuple
+            This is the dimensions of the fill matrix, created when the `matrix` parameter is not specified and only
+            this value and the fill value is provided. Defaults to `None`.
+        fill : t.Union[int, float]
+            This is the fill value, which works with the `dims` parameter to create a filled matrix with the given
+            value. Defaults to `None`.
         """
         if not matrix:
-            if not dims or fill is not None:
+            if dims is not None:
                 self.matrix = self._create_filled_matrix(dims, fill)
             else:
                 raise ValueError("You need to pass the dimensions of the matrix or the fill value!")
@@ -35,21 +40,30 @@ class Matrix:
     @property
     def rows(self) -> int:
         """
-        :return: Returns the number of rows in the 2D matrix created.
+        Returns
+        -------
+        int
+            The number of rows in the 2D matrix created.
         """
         return len(self.matrix)
 
     @property
     def cols(self) -> int:
         """
-        :return: Returns the number of the columns in the 2D matrix created.
+        Returns
+        -------
+        int
+            The number of the columns in the 2D matrix created.
         """
         return len(self.matrix[0])
 
     @property
     def dims(self) -> tuple:
         """
-        :return: Returns a tuple containing the shape or the rows and columns in the matrix created.
+        Returns
+        -------
+        tuple
+            The tuple containing the shape or the rows and columns in the matrix created.
         """
         return tuple(self._get_mat_dimension(self.matrix))
 
@@ -159,25 +173,53 @@ class Matrix:
         """
         Checks if a matrix passed is valid or not and returns the processed and cleaned matrix.
 
-        :param matrix: The matrix passed to this function for processing, validation and cleaning.
-        :return: The list consisting the validated and cleaned matrix after passing the checks.
+        Parameters
+        ----------
+        matrix : list
+            The matrix passed to this function for processing, validation and cleaning.
 
-        :raises TypeError: if the matrix contains any datatype other than `int` or `float`.
-        :raises InvalidMatrixError: if the matrix has invalid size or cannot be validated.
+        Returns
+        -------
+        list
+            The list consisting the validated and cleaned matrix after passing the checks.
+
+        Raises
+        ------
+        TypeError
+            If the matrix contains any datatype other than `int` or `float`.
+        InvalidMatrixError
+            If the matrix has invalid size or cannot be validated.
         """
         def contains_sublist(mat: list) -> bool:
             """
-            :param mat: The matrix passed for checking if it contains sublist.
-            :return: if the matrix passed contains sublist.
+            Parameters
+            ----------
+            mat: list
+                The matrix passed for checking if it contains sublist.
+
+            Returns
+            -------
+            bool
+                If the matrix passed contains sublist.
             """
             return all(isinstance(element, list) for element in mat)
 
         def value_check(mat: list) -> bool:
             """
-            :param mat: The matrix passed for validating the datatypes in it.
-            :return: if the matrix contains any datatypes other than `int` or `float`.
+            Parameters
+            ----------
+            mat: list
+                The matrix passed for validating the datatypes in it.
 
-            :raise TypeError: raised if the matrix consists of value which is not a `int` or `float`.
+            Returns
+            -------
+            bool
+                If the matrix contains any datatypes other than `int` or `float`.
+
+            Raises
+            ------
+            TypeError
+                Raised if the matrix consists of value which is not a `int` or `float`.
             """
             for row, row_values in enumerate(mat):
                 for col, value in enumerate(row_values):
@@ -200,9 +242,32 @@ class Matrix:
             return matrix
 
     @staticmethod
-    def _create_filled_matrix(dims: tuple, fill: t.Union[int, float]) -> list:
+    def _create_filled_matrix(dims: tuple, fill: t.Union[int, float] = None) -> list:
+        """
+        Parameters
+        ----------
+        dims: tuple
+            The dimensions for the matrix to be initialized. Only 2 dimensions (X, Y) are allowed.
+        fill: t.Union[int, float]
+            The value to be filled across the matrix of the specified dimension.
+
+        Returns
+        -------
+        list
+            The 2D python list, to be converted into `Matrix` object.
+
+        Raises
+        ------
+        ValueError
+            If the number of dimensions don't equal to 2.
+        TypeError
+            If the fill value isn't either `int` or `float`.
+        """
         if len(dims) != 2:
             raise ValueError("You must pass the 2 DIMENSIONS for the Matrix fill.")
+
+        if not fill:
+            fill = 0
 
         if not isinstance(fill, (int, float)):
             raise TypeError(
@@ -217,14 +282,64 @@ class Matrix:
         return matrix_structure
 
     def _get_mat_dimension(self, matrix: list) -> list:
+        """
+        Parameters
+        ----------
+        matrix : list
+            The matrix whose dimensions are to be figured out.
+
+        Returns
+        -------
+        list
+            A tuple containing the dimensions of the matrix passed.
+        """
         if not isinstance(matrix, list):
             return []
         return [len(matrix)] + self._get_mat_dimension(matrix[0])
 
     def clone(self) -> "Matrix":
+        """
+        Returns the copy of the matrix.
+
+        Returns
+        -------
+        Matrix
+            The copy of the present matrix.
+
+        Examples
+        --------
+        Getting the copy instead of directly assigning, when you want to modify the matrix without disturbing the first one.
+
+        >>> from hypemaths import Matrix
+        >>> matrix = Matrix([[1, 2], [3, 4]])
+        >>> matrix.clone()
+        Matrix([[1, 2], [3, 4]])
+        """
         return copy.deepcopy(self)
 
     def trace(self) -> t.Union[int, float]:
+        """
+        Returns the sum of the diagonals of the matrix
+
+        Returns
+        -------
+        t.Union[int, float]
+            The sum of the diagonals of the current `Matrix`
+
+        Raises
+        ------
+        MatrixNotSquare
+            If the number of columns and rows are not equal in the `Matrix`.
+
+        Examples
+        --------
+        Getting the sum of the rows of the specified matrix.
+
+        >>> from hypemaths import Matrix
+        >>> matrix = Matrix([[5, 5], [3, 4]])
+        >>> matrix.trace()
+        9
+        """
         if self.rows != self.cols:
             raise MatrixNotSquare("Cannot retrieve the sum of diagonals as the row and column count are not same.")
 
@@ -234,7 +349,23 @@ class Matrix:
         return total
 
     def transpose(self) -> "Matrix":
-        """Transposes the matrix."""
+        """
+        Transposes the matrix.
+
+        This converts the matrix elements order, by converting the rows into columns and vice versa.
+
+        Returns
+        -------
+        Matrix
+            The transposed matrix.
+
+        Examples
+        --------
+        >>> from hypemaths import Matrix
+        >>> mat = Matrix([[1, 2], [3, 4]])
+        >>> mat.transpose()
+        Matrix([[1, 3], [2, 4]])
+        """
         cls = self.__class__
 
         matrix = [[self[cols][row] for cols in range(self.rows)] for row in range(self.cols)]
@@ -243,6 +374,28 @@ class Matrix:
 
     @classmethod
     def from_vector(cls, vector: "hm.Vector") -> "Matrix":
+        """
+        Convert a `Vector` into a `Matrix` object.
+
+        Parameters
+        ----------
+        vector: Vector
+            The vector which is going to be converted into Matrix.
+
+        Returns
+        -------
+        Matrix
+            The matrix formed after conversion of vector.
+
+        Examples
+        --------
+        >>> from hypemaths import Vector
+        >>> vec = Vector(1, 2, 3, 4)
+        >>> vec
+        Vector([1, 2, 3, 4])
+        >>> Matrix.from_vector(vec)
+        Matrix([[1], [2], [3], [4]])
+        """
         matrix_list = []
         for value in vector:
             matrix_list.append([value])
