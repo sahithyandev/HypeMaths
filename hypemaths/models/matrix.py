@@ -176,12 +176,26 @@ class Matrix:
         -------
         Matrix
             Returns filled matrix object with the dimensions and fill value passed.
+
+        Examples
+        --------
+        Create a matrix of dimensions : (2, 2) with the fill value of 5.
+
+        >>> matrix = Matrix.get_filled_matrix((2, 2), 5)
+        >>> matrix
+        Matrix([[5, 5], [5, 5]])
+
+        Create a matrix of dimensions : (4, 3) with the fill value 9
+
+        >>> matrix = Matrix.get_filled_matrix((4, 3), 9)
+        >>> matrix
+        Matrix([[9, 9, 9], [9, 9, 9], [9, 9, 9], [9, 9, 9]])
         """
         return cls(cls._create_filled_matrix(dims, fill))
 
     @classmethod
     def get_randomized_matrix(
-            cls, dims: tuple, min_value: int, max_value: int, seed: int = None, round_digits: int = 2
+            cls, dims: tuple, min_value: int, max_value: int, seed: int = None, round_digits: t.Optional[int] = 2
     ) -> "Matrix":
         """
         Generate a random matrix object with the specified parameters.
@@ -203,6 +217,26 @@ class Matrix:
         -------
         Matrix
             The random matrix generated from the function.
+
+        Examples
+        --------
+        Generate a matrix with random integer values
+
+        >>> matrix = Matrix.get_randomized_matrix((2, 2), 1, 10, round_digits=None)
+        >>> matrix
+        Matrix([[4, 9], [9, 2]])
+
+        Generate a reproducible matrix with seed of 7
+
+        >>> matrix = Matrix.get_randomized_matrix((2, 2), 1, 10, seed=7)
+        >>> matrix
+        Matrix([[3.91, 2.36], [6.86, 1.65]])
+
+        Generate a float matrix with 5 digits after decimal
+
+        >>> matrix = Matrix.get_randomized_matrix((2, 2), 1, 10, round_digits=5)
+        >>> matrix
+        Matrix([[5.82294, 4.2912], [1.52199, 5.56692]])
         """
         def is_float_or_int(value: t.Any) -> bool:
             if not isinstance(value, (int, float)):
@@ -375,7 +409,6 @@ class Matrix:
         --------
         Getting the copy instead of directly assigning, when you want to modify the matrix without disturbing the first one.
 
-        >>> from hypemaths import Matrix
         >>> matrix = Matrix([[1, 2], [3, 4]])
         >>> matrix.clone()
         Matrix([[1, 2], [3, 4]])
@@ -400,7 +433,6 @@ class Matrix:
         --------
         Getting the sum of the rows of the specified matrix.
 
-        >>> from hypemaths import Matrix
         >>> matrix = Matrix([[5, 5], [3, 4]])
         >>> matrix.trace()
         9
@@ -426,7 +458,6 @@ class Matrix:
 
         Examples
         --------
-        >>> from hypemaths import Matrix
         >>> mat = Matrix([[1, 2], [3, 4]])
         >>> mat.transpose()
         Matrix([[1, 3], [2, 4]])
