@@ -13,8 +13,6 @@ class Matrix:
     def __init__(
             self,
             matrix: t.Union[int, float, list] = None,
-            dims: tuple = None,
-            fill: t.Union[int, float] = None,
     ) -> None:
         """
         Parameters
@@ -22,18 +20,9 @@ class Matrix:
         matrix : t.Union[int, float, list]
             This is the nested 2D lists which will be converted into an efficient `Matrix` object capable of several
             calculations and features. Defaults to `None`.
-        dims : tuple
-            This is the dimensions of the fill matrix, created when the `matrix` parameter is not specified and only
-            this value and the fill value is provided. Defaults to `None`.
-        fill : t.Union[int, float]
-            This is the fill value, which works with the `dims` parameter to create a filled matrix with the given
-            value. Defaults to `None`.
         """
         if not matrix:
-            if dims is not None:
-                self.matrix = self._create_filled_matrix(dims, fill)
-            else:
-                raise ValueError("You need to pass the dimensions of the matrix or the fill value!")
+            raise ValueError("You need to pass the 2D for the matrix object!")
         else:
             self.matrix = self._cleaned_matrix(matrix)
 
@@ -167,6 +156,27 @@ class Matrix:
 
     def __matmul__(self, other: "Matrix") -> "Matrix":
         return self.__mul__(other)
+
+    @classmethod
+    def get_filled_matrix(cls, dims: tuple, fill: t.Union[int, float]) -> "Matrix":
+        """
+        Create a Matrix object with dimension specified containing fill value specified.
+
+        Parameters
+        ----------
+        dims : tuple
+            This is the dimensions of the fill matrix, created when the `matrix` parameter is not specified and only
+            this value and the fill value is provided. Defaults to `None`.
+        fill : t.Union[int, float]
+            This is the fill value, which works with the `dims` parameter to create a filled matrix with the given
+            value. Defaults to `None`.
+
+        Returns
+        -------
+        Matrix
+            Returns filled matrix object with the dimensions and fill value passed.
+        """
+        return cls(cls._create_filled_matrix(dims, fill))
 
     @staticmethod
     def _cleaned_matrix(matrix: list) -> list:
