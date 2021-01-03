@@ -1,4 +1,5 @@
 import copy
+import random
 import typing as t
 
 import hypemaths as hm
@@ -177,6 +178,60 @@ class Matrix:
             Returns filled matrix object with the dimensions and fill value passed.
         """
         return cls(cls._create_filled_matrix(dims, fill))
+
+    @classmethod
+    def get_randomized_matrix(
+            cls, dims: tuple, min_value: int, max_value: int, seed: int = None, round_digits: int = 2
+    ) -> "Matrix":
+        """
+        Generate a random matrix object with the specified parameters.
+
+        Parameters
+        ----------
+        dims: tuple
+            The dimensions for the matrix to be generated.
+        min_value: int
+            The minimum value for random number generation
+        max_value: int
+            The maximum value for random number generation
+        seed: int
+            The seed for random numer generation which can be recreated later.
+        round_digits: int
+            The number of digits to be in the number after decimal. Set the value as number for integer values.
+
+        Returns
+        -------
+        Matrix
+            The random matrix generated from the function.
+        """
+        def is_float_or_int(value: t.Any) -> bool:
+            if not isinstance(value, (int, float)):
+                raise TypeError(
+                    f"The values or value must be integer or float, but the given fill value is {type(value)}."
+                )
+            return True
+
+        if len(dims) != 2:
+            raise ValueError("You must pass the 2 DIMENSIONS for the Matrix fill.")
+
+        if is_float_or_int(min_value) and is_float_or_int(max_value):
+            if seed is not None:
+                random.seed(seed)
+
+            if not round_digits:
+                matrix = [
+                    [
+                        round(random.uniform(min_value, max_value)) for _ in range(dims[1])
+                    ] for _ in range(dims[0])
+                ]
+                return cls(matrix)
+            else:
+                matrix = [
+                    [
+                        round(random.uniform(min_value, max_value), ndigits=round_digits) for _ in range(dims[1])
+                    ] for _ in range(dims[0])
+                ]
+                return cls(matrix)
 
     @staticmethod
     def _cleaned_matrix(matrix: list) -> list:
