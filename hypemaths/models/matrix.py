@@ -1,4 +1,5 @@
 import copy
+import math
 import random
 import typing as t
 
@@ -467,6 +468,24 @@ class Matrix:
         matrix = [[self[cols][row] for cols in range(self.rows)] for row in range(self.cols)]
 
         return cls(matrix)
+
+    def frobenius_norm(self) -> float:
+        """
+        Calculate the frobenius norm of the matrix.
+
+        The frobenius norm is computed by taking square root of the sums the squares of each entry of the matrix.
+        This can be used to calculate the 2-norm of a column vector.
+
+        Returns
+        -------
+        float:
+            The computed frobenius norm.
+        """
+        sum_of_squares = 0
+        for column in self.matrix:
+            for elem in column:
+                sum_of_squares += elem ** 2
+        return math.sqrt(sum_of_squares)
 
     @classmethod
     def from_vector(cls, vector: "hm.Vector") -> "Matrix":
