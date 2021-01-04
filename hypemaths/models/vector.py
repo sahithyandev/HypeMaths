@@ -1,7 +1,7 @@
 import typing as t
 
 import hypemaths as hm
-from hypemaths.exceptions import MatrixDimensionError
+from hypemaths.exceptions import MatrixDimensionError, VectorDimensionError
 
 
 class Vector:
@@ -57,6 +57,37 @@ class Vector:
 
     def __delitem__(self, index: int) -> None:
         del self.points[index]
+
+    def __add__(self, other: "Vector") -> "Vector":
+        cls = self.__class__
+
+        if not isinstance(other, cls):
+            raise TypeError(f"Vector can only be added with another Vector, not with {type(other)}")
+
+        if self.dimensions != other.dimensions:
+            raise VectorDimensionError(
+                "These vectors cannot be added due to wrong dimensions."
+            )
+
+        vector = [self[index] + other[index] for index in range(self.dimensions)]
+        return cls(vector)
+
+    def __sub__(self, other: "Vector") -> "Vector":
+        cls = self.__class__
+
+        if not isinstance(other, cls):
+            raise TypeError(f"Vector can only be subtracted with another Vector, not with {type(other)}")
+
+        if self.dimensions != other.dimensions:
+            raise VectorDimensionError(
+                "These vectors cannot be subtracted due to wrong dimensions."
+            )
+
+        vector = [self[index] - other[index] for index in range(self.dimensions)]
+        return cls(vector)
+
+    def __radd__(self, other: "Vector") -> "Vector":
+        return self.__add__(other)
 
     @classmethod
     def from_matrix(cls, matrix: "hm.Matrix") -> "Vector":
