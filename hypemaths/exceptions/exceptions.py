@@ -8,3 +8,7 @@ class MatrixDimensionError(Exception):
 
 class MatrixNotSquare(Exception):
     pass
+
+
+class InvalidVectorError(Exception):
+    pass
