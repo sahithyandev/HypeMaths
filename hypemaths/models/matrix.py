@@ -165,6 +165,12 @@ class Matrix:
         matrix = [[abs(self[row][cols]) for cols in range(self.cols)] for row in range(self.rows)]
         return cls(matrix)
 
+    def __round__(self, n: t.Optional[int] = None) -> "Matrix":
+        cls = self.__class__
+
+        matrix = [[round(self[row][cols], ndigits=n) for cols in range(self.cols)] for row in range(self.rows)]
+        return cls(matrix)
+
     @classmethod
     def get_filled_matrix(cls, dims: tuple, fill: t.Union[int, float]) -> "Matrix":
         """
