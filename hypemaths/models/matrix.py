@@ -177,6 +177,12 @@ class Matrix:
         matrix = [[int(self[row][cols]) for cols in range(self.cols)] for row in range(self.rows)]
         return cls(matrix)
 
+    def __float__(self) -> "Matrix":
+        cls = self.__class__
+
+        matrix = [[float(self[row][cols]) for cols in range(self.cols)] for row in range(self.rows)]
+        return cls(matrix)
+
     @classmethod
     def get_filled_matrix(cls, dims: tuple, fill: t.Union[int, float]) -> "Matrix":
         """
