@@ -159,6 +159,12 @@ class Matrix:
     def __matmul__(self, other: "Matrix") -> "Matrix":
         return self.__mul__(other)
 
+    def __abs__(self) -> "Matrix":
+        cls = self.__class__
+
+        matrix = [[abs(self[row][cols]) for cols in range(self.cols)] for row in range(self.rows)]
+        return cls(matrix)
+
     @classmethod
     def get_filled_matrix(cls, dims: tuple, fill: t.Union[int, float]) -> "Matrix":
         """
