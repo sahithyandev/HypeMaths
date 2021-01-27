@@ -48,6 +48,13 @@ class Vector:
 
     @property
     def dimensions(self) -> int:
+        """
+        Return the dimensions of the vector object.
+
+        Returns
+        -------
+        The length / dimension of the vector.
+        """
         return len(self)
 
     def __len__(self) -> int:
@@ -111,6 +118,18 @@ class Vector:
 
     @classmethod
     def from_matrix(cls, matrix: "hm.Matrix") -> "Vector":
+        """
+        Create a `vector` object by flattening a `matrix`.
+
+        Parameters
+        ----------
+        matrix: Matrix
+            The matrix to be converted into a vector.
+
+        Returns
+        -------
+        The converted vector.
+        """
         if matrix.cols != 1:
             raise MatrixDimensionError("Matrix must only have 1 column.")
 
