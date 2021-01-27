@@ -12,3 +12,7 @@ class MatrixNotSquare(Exception):
 
 class InvalidVectorError(Exception):
     pass
+
+
+class VectorDimensionError(Exception):
+    pass

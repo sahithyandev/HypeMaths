@@ -1,15 +1,35 @@
 import typing as t
 
 import hypemaths as hm
-from hypemaths.exceptions import MatrixDimensionError
+from hypemaths.exceptions import MatrixDimensionError, VectorDimensionError
 
 
 class Vector:
-    def __init__(self, *points) -> None:
+    def __init__(self, *points: t.Union[int, tuple]) -> None:
+        """
+        Constructor for the `Vector` class.
+
+        Parameters
+        ----------
+        points: tuple
+            All the points for the vector.
+        """
         self.points = self._cleaned_vector(points)
 
     @staticmethod
     def _cleaned_vector(points: tuple) -> list:
+        """
+        Clean and validate the vector by using this method.
+
+        Parameters
+        ----------
+        points: tuple
+            The vector points stored in it.
+
+        Returns
+        -------
+
+        """
         def value_check(vector_points: list) -> bool:
             for index, point in enumerate(vector_points):
                 if not isinstance(point, (int, float)):
@@ -28,6 +48,13 @@ class Vector:
 
     @property
     def dimensions(self) -> int:
+        """
+        Return the dimensions of the vector object.
+
+        Returns
+        -------
+        The length / dimension of the vector.
+        """
         return len(self)
 
     def __len__(self) -> int:
@@ -58,8 +85,52 @@ class Vector:
     def __delitem__(self, index: int) -> None:
         del self.points[index]
 
+    def __add__(self, other: "Vector") -> "Vector":
+        cls = self.__class__
+
+        if not isinstance(other, cls):
+            raise TypeError(f"Vector can only be added with another Vector, not with {type(other)}")
+
+        if self.dimensions != other.dimensions:
+            raise VectorDimensionError(
+                "These vectors cannot be added due to wrong dimensions."
+            )
+
+        vector = [self[index] + other[index] for index in range(self.dimensions)]
+        return cls(vector)
+
+    def __sub__(self, other: "Vector") -> "Vector":
+        cls = self.__class__
+
+        if not isinstance(other, cls):
+            raise TypeError(f"Vector can only be subtracted with another Vector, not with {type(other)}")
+
+        if self.dimensions != other.dimensions:
+            raise VectorDimensionError(
+                "These vectors cannot be subtracted due to wrong dimensions."
+            )
+
+        vector = [self[index] - other[index] for index in range(self.dimensions)]
+        return cls(vector)
+
+    def __radd__(self, other: "Vector") -> "Vector":
+        return self.__add__(other)
+
     @classmethod
     def from_matrix(cls, matrix: "hm.Matrix") -> "Vector":
+        """
+        Create a `vector` object by flattening a `matrix`.
+
+        Parameters
+        ----------
+        matrix: Matrix
+            The matrix to be converted into a vector.
+
+        Returns
+        -------
+        Vector:
+            The converted vector.
+        """
         if matrix.cols != 1:
             raise MatrixDimensionError("Matrix must only have 1 column.")
 

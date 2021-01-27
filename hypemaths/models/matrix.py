@@ -1,4 +1,5 @@
 import copy
+import math
 import random
 import typing as t
 
@@ -157,6 +158,30 @@ class Matrix:
 
     def __matmul__(self, other: "Matrix") -> "Matrix":
         return self.__mul__(other)
+
+    def __abs__(self) -> "Matrix":
+        cls = self.__class__
+
+        matrix = [[abs(self[row][cols]) for cols in range(self.cols)] for row in range(self.rows)]
+        return cls(matrix)
+
+    def __round__(self, n: t.Optional[int] = None) -> "Matrix":
+        cls = self.__class__
+
+        matrix = [[round(self[row][cols], ndigits=n) for cols in range(self.cols)] for row in range(self.rows)]
+        return cls(matrix)
+
+    def __int__(self) -> "Matrix":
+        cls = self.__class__
+
+        matrix = [[int(self[row][cols]) for cols in range(self.cols)] for row in range(self.rows)]
+        return cls(matrix)
+
+    def __float__(self) -> "Matrix":
+        cls = self.__class__
+
+        matrix = [[float(self[row][cols]) for cols in range(self.cols)] for row in range(self.rows)]
+        return cls(matrix)
 
     @classmethod
     def get_filled_matrix(cls, dims: tuple, fill: t.Union[int, float]) -> "Matrix":
@@ -467,6 +492,56 @@ class Matrix:
         matrix = [[self[cols][row] for cols in range(self.rows)] for row in range(self.cols)]
 
         return cls(matrix)
+
+    def frobenius_norm(self) -> float:
+        """
+        Calculate the frobenius norm of the matrix.
+
+        The frobenius norm is computed by taking square root of the sums the squares of each entry of the matrix.
+        This can be used to calculate the 2-norm of a column vector.
+
+        Returns
+        -------
+        float:
+            The computed frobenius norm.
+        """
+        sum_of_squares = 0
+        for column in self.matrix:
+            for elem in column:
+                sum_of_squares += elem ** 2
+        return math.sqrt(sum_of_squares)
+
+    def determinant(self) -> float:
+        """
+        Get the determinant of a matrix.
+
+        In linear algebra, the determinant is a scalar value that can be computed from the elements of a square
+        matrix and encodes certain properties of the linear transformation described by the matrix. The determinant of
+        a matrix A is denoted det, det A, or |A|.
+
+        Returns
+        -------
+        float:
+            The determinant of the matrix.
+        """
+        matrix_size = len(self.matrix)
+        matrix_copy = self.clone()
+
+        for fd in range(matrix_size):  # FD - The focus diagonal.
+            for i in range(fd + 1, matrix_size):
+                if matrix_copy[fd][fd] == 0:
+                    matrix_copy[fd][fd] = 1.0e-18
+
+                current_row_scaler = matrix_copy[i][fd] / matrix_copy[fd][fd]
+
+                for j in range(matrix_size):
+                    matrix_copy[i][j] = matrix_copy[i][j] - current_row_scaler * matrix_copy[fd][j]
+
+        product = 1.0
+        for i in range(matrix_size):
+            product *= matrix_copy[i][i]
+
+        return product
 
     @classmethod
     def from_vector(cls, vector: "hm.Vector") -> "Matrix":
