@@ -5,11 +5,31 @@ from hypemaths.exceptions import MatrixDimensionError, VectorDimensionError
 
 
 class Vector:
-    def __init__(self, *points) -> None:
+    def __init__(self, *points: t.Union[int, tuple]) -> None:
+        """
+        Constructor for the `Vector` class.
+
+        Parameters
+        ----------
+        points: tuple
+            All the points for the vector.
+        """
         self.points = self._cleaned_vector(points)
 
     @staticmethod
     def _cleaned_vector(points: tuple) -> list:
+        """
+        Clean and validate the vector by using this method.
+
+        Parameters
+        ----------
+        points: tuple
+            The vector points stored in it.
+
+        Returns
+        -------
+
+        """
         def value_check(vector_points: list) -> bool:
             for index, point in enumerate(vector_points):
                 if not isinstance(point, (int, float)):
