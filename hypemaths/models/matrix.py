@@ -511,6 +511,26 @@ class Matrix:
                 sum_of_squares += elem ** 2
         return math.sqrt(sum_of_squares)
 
+    def determinant(self) -> t.Union[int, float]:
+        matrix_size = len(self.matrix)
+        matrix_copy = self.clone()
+
+        for fd in range(matrix_size):  # FD - The focus diagonal.
+            for i in range(fd + 1, matrix_size):
+                if matrix_copy[fd][fd] == 0:
+                    matrix_copy[fd][fd] = 1.0e-18
+
+                current_row_scaler = matrix_copy[i][fd] / matrix_copy[fd][fd]
+
+                for j in range(matrix_size):
+                    matrix_copy[i][j] = matrix_copy[i][j] - current_row_scaler * matrix_copy[fd][j]
+
+        product = 1.0
+        for i in range(matrix_size):
+            product *= matrix_copy[i][i]
+
+        return product
+
     @classmethod
     def from_vector(cls, vector: "hm.Vector") -> "Matrix":
         """
