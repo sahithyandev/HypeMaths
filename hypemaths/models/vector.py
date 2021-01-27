@@ -128,7 +128,8 @@ class Vector:
 
         Returns
         -------
-        The converted vector.
+        Vector:
+            The converted vector.
         """
         if matrix.cols != 1:
             raise MatrixDimensionError("Matrix must only have 1 column.")

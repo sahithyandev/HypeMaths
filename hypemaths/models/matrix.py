@@ -511,7 +511,19 @@ class Matrix:
                 sum_of_squares += elem ** 2
         return math.sqrt(sum_of_squares)
 
-    def determinant(self) -> t.Union[int, float]:
+    def determinant(self) -> float:
+        """
+        Get the determinant of a matrix.
+
+        In linear algebra, the determinant is a scalar value that can be computed from the elements of a square
+        matrix and encodes certain properties of the linear transformation described by the matrix. The determinant of
+        a matrix A is denoted det, det A, or |A|.
+
+        Returns
+        -------
+        float:
+            The determinant of the matrix.
+        """
         matrix_size = len(self.matrix)
         matrix_copy = self.clone()
 
