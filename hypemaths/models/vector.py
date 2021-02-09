@@ -28,7 +28,8 @@ class Vector:
 
         Returns
         -------
-
+        list:
+            The cleaned vector,
         """
         def value_check(vector_points: list) -> bool:
             for index, point in enumerate(vector_points):
@@ -111,6 +112,20 @@ class Vector:
             )
 
         vector = [self[index] - other[index] for index in range(self.dimensions)]
+        return cls(vector)
+
+    def __mul__(self, other: "Vector") -> "Vector":
+        cls = self.__class__
+
+        if not isinstance(other, cls):
+            raise TypeError(f"Vector can only be added with another Vector, not with {type(other)}")
+
+        if self.dimensions != other.dimensions:
+            raise VectorDimensionError(
+                "These vectors cannot be added due to wrong dimensions."
+            )
+
+        vector = [self[index] * other[index] for index in range(self.dimensions)]
         return cls(vector)
 
     def __radd__(self, other: "Vector") -> "Vector":
