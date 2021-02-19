@@ -1,6 +1,7 @@
 from hypemaths.models import (
     Matrix,
-    Vector
+    Vector,
+    Graph
 )
 
 __author__ = "Sunrit Jana"
