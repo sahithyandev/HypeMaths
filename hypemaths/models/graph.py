@@ -1,11 +1,10 @@
 
+# Todo create graph-specific error types
 class Graph:
 	"""
 	Graphs are the mathematical structures used to model pairwise relations between objects. It is not the XY(Z) graph.
 	"""
 	
-	# vertices are set of nodes
-	# edges are set of tuple of nodes
 	# Todo decide if edges and vertices wants seperate classes
 	def __init__(self, vertices: set = None, edges: set = None):
 		self.vertices =  self._validate_vertices(vertices)
@@ -33,6 +32,12 @@ class Graph:
             The number of vertices in the graph.
         """
 		return len(self.vertices)
+		
+	def is_edge_exists(edge: tuple) -> bool:
+		if not self.vertices.issuperset(set(edge)):
+			raise TypeError(f"Invalid Edge")
+		
+		return edge in list(self.edges)
 		
 	def _validate_vertices(self, vertices: set):
 		# set default value if undefined
@@ -63,10 +68,3 @@ class Graph:
 			
 			if not vertices.issuperset(set(edge)):
 				raise TypeError(f"Only vertices can be used as edge joints")
-		
-x = Graph({1,2,3,4}, {(1,2), (2,3), (1,4)})
-print(x)
-# y = Graph([1,32])
-# z = Graph()
-# print(z)
-# c = Graph(1)
